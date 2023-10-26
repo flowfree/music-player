@@ -18,7 +18,8 @@
 # misc
 .DS_Store
 *.pem
-*.mp3
+/public/audio/*.mp3
+/public/img/artwork*.jpg
 
 # debug
 npm-debug.log*

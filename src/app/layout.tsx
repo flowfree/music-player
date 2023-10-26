@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { Sidebar } from './components'
+import { Sidebar, AudioPlayer } from './components'
 import '../../public/css/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -27,10 +27,8 @@ export default function RootLayout({
             <div className="grow">
               {children}
             </div>
-            <div className="sticky w-content bottom-0 py-4">
-              <h2 className="text-xl font-bold tracking-tight text-center">
-                Sticky panel
-              </h2>
+            <div className="sticky w-content bottom-0">
+              <AudioPlayer src="/api/audio_stream" />
             </div>
           </div>
         </div>
