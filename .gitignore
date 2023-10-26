@@ -19,7 +19,7 @@
 .DS_Store
 *.pem
 /public/audio/*.mp3
-/public/img/artwork*.jpg
+/public/img/cover/*.jpg
 
 # debug
 npm-debug.log*

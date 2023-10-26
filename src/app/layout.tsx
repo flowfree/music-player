@@ -28,7 +28,6 @@ export default function RootLayout({
               {children}
             </div>
             <div className="sticky w-content bottom-0">
-              <AudioPlayer src="/api/audio_stream" />
             </div>
           </div>
         </div>

@@ -18,8 +18,11 @@ function streamFile(path: string, options?: any): ReadableStream<Uint8Array> {
   })
 }
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
-  const filePath = path.resolve('./public/audio/Alan Walker - Dreamer.mp3')
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
+  const filePath = path.resolve(`./public/audio/${params.id}.mp3`)
   const stat = fs.statSync(filePath)
   const fileSize = stat.size
   const range = req.headers.get('range')
