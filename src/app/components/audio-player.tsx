@@ -105,7 +105,15 @@ export function AudioPlayer({
           </div>
         </div>
       </div>
-      <audio ref={audioRef} src={src} onTimeUpdate={updateProgress} preload="none" />
+
+      <audio 
+        preload="none" 
+        ref={audioRef} 
+        src={src} 
+        onTimeUpdate={updateProgress} 
+        onEnded={() => setIsPlaying(false)}
+      />
+
     </>
   )
 }
