@@ -24,7 +24,14 @@ export default function RootLayout({
             <Sidebar />
           </div>
           <div className="grow flex flex-col">
-            {children}
+            <div className="grow">
+              {children}
+            </div>
+            <div className="sticky w-content bottom-0 py-4">
+              <h2 className="text-xl font-bold tracking-tight text-center">
+                Sticky panel
+              </h2>
+            </div>
           </div>
         </div>
 
