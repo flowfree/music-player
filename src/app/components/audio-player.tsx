@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { type Audio } from '@/app/lib/types'
+import { useAudioStore } from '@/lib/store'
 import {
   PlayIcon,
   PauseIcon,
@@ -10,27 +10,27 @@ import {
   SpeakerWaveIcon
 } from '@heroicons/react/24/solid'
 
-export function AudioPlayer({ 
-  audio
-}: {
-  audio: Audio
-}) {
+export function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState('0:00')
   const [volume, setVolume] = useState(0.9)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const audio = useAudioStore(state => state.audio)
 
   useEffect(() => {
     setIsPlaying(false)
     setProgress(0)
     setCurrentTime('0:00')
+    if (audioRef.current) {
+      audioRef.current.play()
+      setIsPlaying(true)
+    }
   }, [audio])
 
   useEffect(() => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.volume = volume
+    if (audioRef.current) {
+      audioRef.current.volume = volume
     }
   }, [volume])
 
@@ -50,15 +50,23 @@ export function AudioPlayer({
     const audio = audioRef.current
     if (audio) {
       setProgress((audio.currentTime / audio.duration) * 100)
-      const seconds = Math.floor(audio.currentTime)
-      const minutes = Math.floor(seconds / 60)
-      setCurrentTime(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`)
+      setCurrentTime(formatTime(audio.currentTime))
     }
+  }
+
+  function formatTime(duration: number) {
+    const minutes = Math.floor(duration / 60)
+    const seconds = Math.floor(duration % 60)
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+  }
+
+  if (!audio) {
+    return null
   }
 
   return (
     <>
-      <div className="p-4 flex flex-row gap-8 items-center">
+      <div className="p-4 flex flex-row gap-8 items-center bg-gray-100">
 
         <div className="basis-1/4 flex flex-row gap-2 overfow-hidden">
           <img src={`/img/cover/${audio.id}.jpg`} className="w-16 h-16" alt="" />
@@ -96,7 +104,7 @@ export function AudioPlayer({
               <div className="bg-stone-700 h-1 rounded-full" style={{width: `${progress}%`}} />
             </div>
             <span className="text-xs">
-              2:25
+              {audio.duration ? formatTime(audio.duration) : '0:00'}
             </span>
           </div>
         </div>

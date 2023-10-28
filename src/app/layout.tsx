@@ -21,13 +21,14 @@ export default function RootLayout({
 
         <div className="flex flex-row">
           <div className="shrink-0">
-            <Sidebar />
+            {/* <Sidebar /> */}
           </div>
           <div className="grow flex flex-col">
             <div className="grow">
               {children}
             </div>
             <div className="sticky w-content bottom-0">
+              <AudioPlayer />
             </div>
           </div>
         </div>

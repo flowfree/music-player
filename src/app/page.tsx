@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { type Audio } from '@/app/lib/types'
-import { AudioPlayer } from './components'
+import { type Audio } from '@/lib/types'
 import { getAudios } from './actions'
+import { useAudioStore } from '@/lib/store'
 
 export default function Home() {
   const [audios, setAudios] = useState<Audio[]>([])
-  const [playedAudio, setPlayedAudio] = useState<Audio>()
+  const play = useAudioStore(state => state.play)
 
   useEffect(() => {
     async function fetchAudios() {
@@ -26,18 +26,12 @@ export default function Home() {
         <ul className="list-disc list-inside">
           {audios.map(audio => (
             <li key={audio.id} className="ml-4 text-blue-800">
-              <button onClick={() => setPlayedAudio(audio)}>
+              <button onClick={() => play(audio)}>
                 {audio.title}
               </button>
             </li>
           ))}
         </ul>        
-      )}
-
-      {playedAudio && (
-        <div className="bg-gray-100">
-          <AudioPlayer audio={playedAudio} />
-        </div>
       )}
     </div>
   )
