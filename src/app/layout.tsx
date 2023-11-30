@@ -6,8 +6,8 @@ import '../../public/css/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Music Player',
-  description: 'MP3 music player',
+  title: 'Music Streaming',
+  description: 'MP3 music streaming',
 }
 
 export default function RootLayout({
@@ -18,22 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + ` h-screen antialiased`}>
-
-        <div className="flex flex-row">
-          <div className="shrink-0">
-            {/* <Sidebar /> */}
-          </div>
-          <div className="grow flex flex-col">
-            <div className="grow">
-              {children}
-            </div>
-            <div className="sticky w-content bottom-0">
-              <AudioPlayer />
-            </div>
-          </div>
+        <div className="p-4 pb-20">
+          {children}
         </div>
-
-     </body>
+      </body>
     </html>
   )
 }
