@@ -6,16 +6,20 @@ import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
+  const [skip, setSkip] = useState(0)
+  const [take, setTake] = useState(5)
+  const [hasMore, setHasMore] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
-      const { data } = await fetchAllTracks()
+      const { data } = await fetchAllTracks({ skip, take: take+1 })
       if (data) {
-        setTracks(data)
+        setTracks(state => [...state, ...data.slice(0, take)])
+        setHasMore(data.length > take)
       }
     }
     fetchData()
-  }, [])
+  }, [skip])
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -45,6 +49,17 @@ export default function Page() {
           </li>
         ))}
       </ul>
+
+      {hasMore && (
+        <div className="mt-8 w-full flex justify-center">
+          <button 
+            className="py-2 px-4 rounded-md shadow-md bg-indigo-700 hover:bg-indigo-600 text-white text-sm font-bold"
+            onClick={() => setSkip(skip+take)}
+          >
+            Load more
+          </button>
+        </div>
+      )}
     </div>
   )
 }

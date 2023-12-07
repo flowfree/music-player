@@ -19,9 +19,16 @@ interface ListOfTrackResponse {
   data?: TrackWithRelatedData[]
 }
 
+interface PaginationParam {
+  take?: number
+  skip?: number
+}
+
 const prisma = new PrismaClient()
 
-export async function fetchAllTracks(): Promise<ListOfTrackResponse> {
+export async function fetchAllTracks(
+  pagination?: PaginationParam
+): Promise<ListOfTrackResponse> {
   try {
     const result = await prisma.track.findMany({
       include: {
@@ -39,7 +46,9 @@ export async function fetchAllTracks(): Promise<ListOfTrackResponse> {
             }
           }
         }
-      }
+      },
+      skip: pagination?.skip,
+      take: pagination?.take
     })
     const data = result.map(track => ({
       ...track,
