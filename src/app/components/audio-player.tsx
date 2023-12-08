@@ -16,7 +16,15 @@ export function AudioPlayer() {
   const [volume, setVolume] = useState(0.9)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const audio = null
+  const audio = {
+    id: 1,
+    title: 'Hello, World!',
+    artists: [
+      { id: 1, name: 'aaa' }, 
+      { id: 2, name: 'bbb' }
+    ],
+    duration: 90
+  }
 
   useEffect(() => {
     setIsPlaying(false)
