@@ -7,7 +7,7 @@ import { PlayCircleIcon } from '@heroicons/react/24/solid'
 export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
   const [skip, setSkip] = useState(0)
-  const [take, setTake] = useState(5)
+  const [take, setTake] = useState(15)
   const [hasMore, setHasMore] = useState(false)
 
   useEffect(() => {

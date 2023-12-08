@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useAudioStore } from '@/lib/store'
 import {
   PlayIcon,
   PauseIcon,
@@ -16,7 +15,8 @@ export function AudioPlayer() {
   const [currentTime, setCurrentTime] = useState('0:00')
   const [volume, setVolume] = useState(0.9)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const audio = useAudioStore(state => state.audio)
+
+  const audio = null
 
   useEffect(() => {
     setIsPlaying(false)
@@ -75,7 +75,7 @@ export function AudioPlayer() {
               {audio.title}
             </h3>
             <p className="text-sm line-clamp-1">
-              {audio.artist}
+              {audio.artists.map(artist => artist.name).join(', ')}
             </p>
           </div>
         </div>
@@ -86,7 +86,7 @@ export function AudioPlayer() {
               <BackwardIcon className="w-5 h-5" />
             </button>
             <button 
-              className="p-2 rounded-full bg-purple-700 text-white"
+              className="p-2 rounded-full bg-indigo-700 text-white"
               onClick={togglePlayPause}
             >
               {isPlaying ? <PauseIcon className="w-6 h-6" /> : <PlayIcon className="w-6 h-6" />}
@@ -128,7 +128,7 @@ export function AudioPlayer() {
       <audio 
         preload="none" 
         ref={audioRef} 
-        src={`/api/audio_stream/${audio.id}`} 
+        src={`/api/stream/${audio.id}`} 
         onTimeUpdate={updateProgress} 
         onEnded={() => setIsPlaying(false)}
       />
