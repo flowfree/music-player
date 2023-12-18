@@ -26,6 +26,7 @@ model Track {
   imageUrl      String?
   duration      Int?
   releaseDate   DateTime?
+  url           String      @unique
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }

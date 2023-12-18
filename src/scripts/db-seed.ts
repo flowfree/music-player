@@ -31,60 +31,80 @@ const tracks = [{
   title: 'BABY',
   artists: [13],
   genres: [3],
+  duration: 158,
+  url: 'https://ncs.io/baby',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/6261a0f5-93d3-4f32-a599-97f380ad58ba/artwork-440x440.jpg'
 }, {
   id: 9,
   title: 'RPM',
   artists: [12],
   genres: [3],
+  duration: 140,
+  url: 'https://ncs.io/RPM',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/82bd6340-d2f3-48b7-b964-5b14bc6dfad1/artwork-440x440.jpg'
 }, {
   id: 8,
   title: 'Are You With Me',
   artists: [11],
   genres: [1],
+  duration: 191,
+  url: 'https://ncs.io/AYWM',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/470f8b0b-6e84-4304-a93b-53fd685fd770/artwork-440x440.jpg'
 }, {
   id: 7,
   title: 'Karma',
   artists: [10],
   genres: [5,1],
+  duration: 189,
+  url: 'https://ncs.io/karma',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/987b297e-b3f6-4ef8-8068-5758a470d809/artwork-440x440.jpg'
 }, {
   id: 6,
   title: 'Baby Sweet',
   artists: [9],
   genres: [3],
+  duration: 174,
+  url: 'https://ncs.io/babysweet',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/b43d86ab-4bb3-462c-af86-59edb0344db2/artwork-440x440.jpg'
 }, {
   id: 5,
   title: 'las fallas',
   artists: [8],
   genres: [3],
+  duration: 145,
+  url: 'https://ncs.io/lasfallas',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/92464bd1-4cac-4d45-a641-1fe12330b1be/artwork-440x440.jpg'
 }, {
   id: 4,
   title: 'Time Of Our Lives',
   artists: [7],
   genres: [2],
+  duration: 205,
+  url: 'https://ncs.io/TOUL',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/cafb6592-fd16-4517-885c-eec8666a35b3/artwork-440x440.jpg'
 }, {
   id: 3,
   title: 'VBM (Ft. P-One)',
   artists: [5,6],
   genres: [2],
+  duration: 136,
+  url: 'https://ncs.io/vbm',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/5b4d8c50-649f-4ffb-a322-9046b6867dbd/artwork-440x440.jpg'
 }, {
   id: 2,
   title: 'Give Up',
   artists: [3,4],
   genres: [1],
+  duration: 170,
+  url: 'https://ncs.io/giveup',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/1f74929b-9acf-4466-8d64-e4ef282e8602/artwork-440x440.jpg'
 }, {
   id: 1,
   title: 'Hold On Me',
   artists: [1,2],
   genres: [1],
+  duration: 209,
+  url: 'https://ncs.io/HOM',
   imageUrl: 'https://linkstorage.linkfire.com/medialinks/images/ccfbde2c-c65c-4b21-9ec2-59fc4e0ee35a/artwork-440x440.jpg',
 }]
 
@@ -104,10 +124,10 @@ async function dbSeed() {
   }
 
   for (const track of tracks) {
-    const { id, title, imageUrl } = track
+    const { id, title, duration, url, imageUrl } = track
 
     const createdTrack = await prisma.track.create({
-      data: { id, title, imageUrl }
+      data: { id, title, duration, url, imageUrl }
     })
 
     for (const artistId of track.artists) {

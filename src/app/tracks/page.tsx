@@ -34,7 +34,7 @@ export default function Page() {
           <li key={track.id} className="flex flex-col gap-2">
             <img src={track.imageUrl || ''} className="rounded-md" alt="" />
             <div>
-              <h3 className="font-bold">
+              <h3 className="font-bold text-sm">
                 {track.title}
               </h3>
               <p className="text-sm text-gray-500">

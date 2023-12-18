@@ -13,6 +13,7 @@ CREATE TABLE "Track" (
     "imageUrl" TEXT,
     "duration" INTEGER,
     "releaseDate" DATETIME,
+    "url" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
@@ -44,3 +45,6 @@ CREATE TABLE "TrackGenre" (
     CONSTRAINT "TrackGenre_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "TrackGenre_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genre" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Track_url_key" ON "Track"("url");
