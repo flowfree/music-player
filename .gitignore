@@ -18,9 +18,13 @@
 # misc
 .DS_Store
 *.pem
+/sample-data
+
+# Assets
 /public/audio/*.mp3
 /public/img/cover/*.jpg
 /public/img/cover/*.png
+
 
 # debug
 npm-debug.log*
