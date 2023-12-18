@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import { fetchAllTracks, type TrackWithRelatedData } from './actions'
+import { useAudioPlayer } from '@/lib/store'
 import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Page() {
@@ -9,6 +11,10 @@ export default function Page() {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(15)
   const [hasMore, setHasMore] = useState(false)
+
+  const { play } = useAudioPlayer(
+    useShallow(state => ({ trackId: state.trackId, play: state.play }))
+  )
 
   useEffect(() => {
     async function fetchData() {
@@ -39,7 +45,10 @@ export default function Page() {
                   {track.genres.map(genre => genre.name).join(', ')}
                 </p>
                 <p>
-                  <button className="py-1 px-2 flex gap-1 text-xs rounded-full border border-gray-600 hover:bg-indigo-700 hover:text-white font-bold">
+                  <button 
+                    className="py-1 px-2 flex gap-1 text-xs rounded-full border border-gray-600 hover:bg-indigo-700 hover:text-white font-bold"
+                    onClick={() => play(track.id)}
+                  >
                     <PlayCircleIcon className="w-4 h-4" />
                     Play
                   </button>

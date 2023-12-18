@@ -1,6 +1,9 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
+import { getTrack, type TrackWithRelatedData } from '../tracks/actions'
+import { useAudioPlayer } from '@/lib/store'
 import {
   PlayIcon,
   PauseIcon,
@@ -10,21 +13,28 @@ import {
 } from '@heroicons/react/24/solid'
 
 export function AudioPlayer() {
+  const [track, setTrack] = useState<TrackWithRelatedData>()
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState('0:00')
   const [volume, setVolume] = useState(0.9)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const audio = {
-    id: 1,
-    title: 'Hello, World!',
-    artists: [
-      { id: 1, name: 'aaa' }, 
-      { id: 2, name: 'bbb' }
-    ],
-    duration: 90
-  }
+  const { trackId } = useAudioPlayer(
+    useShallow(state => ({ trackId: state.trackId }))
+  )
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!trackId) return
+
+      const { data } = await getTrack(trackId)
+      if (data) {
+        setTrack(data)
+      }
+    }
+    fetchData()
+  }, [trackId])
 
   useEffect(() => {
     setIsPlaying(false)
@@ -34,7 +44,7 @@ export function AudioPlayer() {
       audioRef.current.play()
       setIsPlaying(true)
     }
-  }, [audio])
+  }, [track])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -68,22 +78,22 @@ export function AudioPlayer() {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
   }
 
-  if (!audio) {
+  if (!track) {
     return null
   }
 
   return (
     <>
-      <div className="p-4 flex flex-row gap-8 items-center bg-gray-100">
+      <div className="p-4 flex flex-row gap-8 items-center bg-gray-100/90">
 
         <div className="basis-1/4 flex flex-row gap-2 overfow-hidden">
-          <img src={`/img/cover/${audio.id}.jpg`} className="w-16 h-16" alt="" />
+          <img src={`/img/cover/${track.id}.jpg`} className="w-16 h-16" alt="" />
           <div className="self-center">
             <h3 className="text-sm font-bold line-clamp-1">
-              {audio.title}
+              {track.title}
             </h3>
             <p className="text-sm line-clamp-1">
-              {audio.artists.map(artist => artist.name).join(', ')}
+              {track.artists.map(artist => artist.name).join(', ')}
             </p>
           </div>
         </div>
@@ -112,7 +122,7 @@ export function AudioPlayer() {
               <div className="bg-stone-700 h-1 rounded-full" style={{width: `${progress}%`}} />
             </div>
             <span className="text-xs">
-              {audio.duration ? formatTime(audio.duration) : '0:00'}
+              {track.duration ? formatTime(track.duration) : '0:00'}
             </span>
           </div>
         </div>
@@ -136,7 +146,7 @@ export function AudioPlayer() {
       <audio 
         preload="none" 
         ref={audioRef} 
-        src={`/api/stream/${audio.id}`} 
+        src={`/api/stream/${track.id}`} 
         onTimeUpdate={updateProgress} 
         onEnded={() => setIsPlaying(false)}
       />

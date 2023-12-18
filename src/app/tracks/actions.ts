@@ -60,3 +60,46 @@ export async function fetchAllTracks(
     return { success: false, message: `${err}` }
   }
 }
+
+interface TrackResponse {
+  success: boolean
+  message?: string
+  data?: TrackWithRelatedData
+}
+
+export async function getTrack(trackId: number): Promise<TrackResponse> {
+  try {
+    const result = await prisma.track.findFirst({ 
+      where: { id: trackId }, 
+      include: {
+        artists: {
+          select: {
+            artist: {
+              select: { id: true, name: true }
+            }
+          }
+        },
+        genres: {
+          select: {
+            genre: {
+              select: { id: true, name: true }
+            }
+          }
+        }
+      }
+    })
+
+    if (!result) {
+      return { success: false, message: `Track not found: ${trackId}` }
+    }
+
+    const data = {
+      ...result,
+      artists: result.artists.map(relation => relation.artist),
+      genres: result.genres.map(relation => relation.genre)
+    }
+    return { success: true, data }
+  } catch (err) {
+    return { success: false, message: `${err}` }
+  }
+}

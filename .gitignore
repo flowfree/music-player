@@ -20,6 +20,7 @@
 *.pem
 /public/audio/*.mp3
 /public/img/cover/*.jpg
+/public/img/cover/*.png
 
 # debug
 npm-debug.log*
