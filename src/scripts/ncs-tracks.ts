@@ -56,6 +56,31 @@ async function fetchNCSTracks() {
   return tracks
 }
 
+async function downloadMP3(url: string, filePath: string): Promise<void> {
+  const response = await axios.get(url, {
+    responseType: 'arraybuffer',
+    onDownloadProgress: (progressEvent) => {
+      if (progressEvent.total) {
+        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        const progressBarLength = 25
+        const completedChars = Math.floor(progress * progressBarLength / 100)
+        const remainingChars = progressBarLength - completedChars;
+        const progressBar = '#'.repeat(completedChars) + ' '.repeat(remainingChars);
+        
+        process.stdout.clearLine(0)
+        process.stdout.cursorTo(0)
+        process.stdout.write(`Downloading MP3: [${progressBar}] ${progress}%`)
+      }
+    }
+  })
+
+  const buffer = Buffer.from(response.data, 'binary')
+  
+  fs.writeFileSync(filePath, buffer)
+  
+  process.stdout.write('\n')
+}
+
 async function main() {
   const tracks = await fetchNCSTracks()
 
@@ -98,6 +123,7 @@ async function main() {
     }
 
     console.log(`${track.title} - ${track.artists}`)
+    await downloadMP3(track.audioUrl, `./public/audio/${createdTrack.id}.mp3`)
   }
 }
 
