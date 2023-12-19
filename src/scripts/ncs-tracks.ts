@@ -1,6 +1,7 @@
 import fs from 'fs'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
+import * as mm from 'music-metadata'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -9,7 +10,7 @@ interface Track {
   title: string
   artists: string[]
   genres: string[]
-  date?: string
+  releaseDate?: Date
   url: string
   audioUrl: string
   imageUrl?: string
@@ -46,10 +47,10 @@ async function fetchNCSTracks() {
       title,
       artists,
       genres,
-      date,
       url,
       imageUrl,
-      audioUrl
+      audioUrl,
+      releaseDate: date ? new Date(date) : undefined
     })
   })
 
@@ -75,17 +76,25 @@ async function downloadMP3(url: string, filePath: string): Promise<void> {
   })
 
   const buffer = Buffer.from(response.data, 'binary')
-  
   fs.writeFileSync(filePath, buffer)
   
   process.stdout.write('\n')
+}
+
+async function getMP3Duration(filePath: string): Promise<number> {
+  const metadata = await mm.parseFile(filePath);
+  if (metadata && metadata.format && metadata.format.duration) {
+    return Math.ceil(metadata.format.duration)
+  } else {
+    return 0
+  }
 }
 
 async function main() {
   const tracks = await fetchNCSTracks()
 
   for (let track of tracks) {
-    const { title, url, imageUrl } = track
+    const { title, url, imageUrl, releaseDate } = track
 
     const exist = await prisma.track.findFirst({ where: { url } })
     if (exist) {
@@ -93,7 +102,7 @@ async function main() {
     }
 
     const createdTrack = await prisma.track.create({
-      data: { title, url, imageUrl }
+      data: { title, url, imageUrl, releaseDate }
     })
 
     for (const name of track.genres) {
@@ -123,7 +132,14 @@ async function main() {
     }
 
     console.log(`${track.title} - ${track.artists}`)
-    await downloadMP3(track.audioUrl, `./public/audio/${createdTrack.id}.mp3`)
+    const filePath = `./public/audio/${createdTrack.id}.mp3`
+    await downloadMP3(track.audioUrl, filePath)
+
+    const duration = await getMP3Duration(filePath)
+    await prisma.track.update({
+      where: { id: createdTrack.id },
+      data: { duration }
+    })
   }
 }
 
