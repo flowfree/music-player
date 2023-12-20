@@ -80,7 +80,7 @@ async function downloadMP3(url: string, filePath: string): Promise<void> {
 async function getMP3Duration(filePath: string): Promise<number> {
   const metadata = await mm.parseFile(filePath);
   if (metadata && metadata.format && metadata.format.duration) {
-    return Math.ceil(metadata.format.duration)
+    return Math.floor(metadata.format.duration)
   } else {
     return 0
   }
