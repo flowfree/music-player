@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { getTrack, type TrackWithRelatedData } from '../tracks/actions'
 import { useAudioPlayer } from '@/lib/store'
-import { TrackImage } from '../tracks/components'
+import { TrackImage } from '.'
 import {
   PlayIcon,
   PauseIcon,

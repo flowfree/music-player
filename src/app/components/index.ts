@@ -1,2 +1,5 @@
 export * from './sidebar'
 export * from './audio-player'
+export * from './track-card'
+export * from './track-image'
+export * from './sound-wave'

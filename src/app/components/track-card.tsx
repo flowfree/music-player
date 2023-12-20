@@ -3,7 +3,7 @@
 import { useShallow } from 'zustand/react/shallow'
 import { useAudioPlayer } from '@/lib/store'
 import { TrackImage, SoundWaveAnimation } from '.'
-import { type TrackWithRelatedData } from '../actions'
+import { type TrackWithRelatedData } from '../tracks/actions'
 import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 export function TrackCard({

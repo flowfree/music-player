@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { fetchAllTracks, type TrackWithRelatedData } from './actions'
 import { useAudioPlayer } from '@/lib/store'
-import { TrackCard } from './components'
+import { TrackCard } from '@/app/components'
 
 export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
