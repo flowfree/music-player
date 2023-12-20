@@ -5,7 +5,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { fetchAllTracks, type TrackWithRelatedData } from './actions'
 import { useAudioPlayer } from '@/lib/store'
 import { TrackCard } from './components'
-import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
@@ -29,11 +28,14 @@ export default function Page() {
   }, [skip])
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto min-h-screen">
       <ul className="grid grid-cols-5 gap-x-8 gap-y-10">
         {tracks.map(track => (
           <li key={track.id}>
-            <TrackCard track={track} />
+            <TrackCard 
+              track={track} 
+              onPlay={() => play(track.id)}
+            />
           </li>
         ))}
       </ul>

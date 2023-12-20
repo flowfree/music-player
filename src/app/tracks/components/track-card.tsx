@@ -1,15 +1,29 @@
 'use client'
 
 import { type TrackWithRelatedData } from '../actions'
+import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
 export function TrackCard({
-  track
+  track,
+  onPlay
 }: {
-  track: TrackWithRelatedData
+  track: TrackWithRelatedData,
+  onPlay: (trackId: number) => void
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <img src={track.imageUrl || ''} className="rounded-md" alt="" />
+      <div className="relative">
+        <img src={track.imageUrl || ''} className="rounded-md" alt="" />
+        <div className="group absolute top-0 left-0 z-10 w-full h-full flex items-center justify-center hover:bg-gray-50/20">
+          <button 
+            className="hidden py-1 px-2 group-hover:flex gap-1 text-sm rounded-full shadow bg-indigo-700 hover:bg-indigo-600 text-white font-bold"
+            onClick={() => onPlay(track.id)}
+          >
+            <PlayCircleIcon className="w-4 h-4" />
+            Play
+          </button>
+        </div>
+      </div>
       <div>
         <h3 className="font-bold text-sm">
           {track.title}
@@ -22,17 +36,32 @@ export function TrackCard({
             {track.genres.map(genre => genre.name).join(', ')}
           </p>
           <p className="text-sm text-gray-400">
-            {/* <button 
-              className="py-1 px-2 flex gap-1 text-xs rounded-full border border-gray-600 hover:bg-indigo-700 hover:text-white font-bold"
-              onClick={() => play(track.id)}
-            >
-              <PlayCircleIcon className="w-4 h-4" />
-              Play
-            </button> */}
-            2 days ago
+            {track.releaseDate && formatDateToText(track.releaseDate)}
           </p>
         </div>
       </div>
     </div>
   )
+}
+
+function formatDateToText(date: Date): string {
+  const now = new Date()
+  const diff = Math.abs(now.getTime() - date.getTime())
+  const seconds = Math.floor(diff / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  const weeks = Math.floor(days / 7)
+  
+  if (seconds < 60) {
+    return `${seconds}s ago`
+  } else if (minutes < 60) {
+    return `${minutes}m ago`
+  } else if (hours < 24) {
+    return `${hours}h ago`
+  } else if (days < 7) {
+    return `${days}d ago`
+  } else {
+    return `${weeks}w ago`
+  }
 }
