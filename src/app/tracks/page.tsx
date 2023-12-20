@@ -9,8 +9,8 @@ import { TrackCard } from './components'
 export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
   const [skip, setSkip] = useState(0)
-  const [take, setTake] = useState(5)
   const [hasMore, setHasMore] = useState(false)
+  const take = 5
 
   const { play } = useAudioPlayer(
     useShallow(state => ({ trackId: state.trackId, play: state.play }))

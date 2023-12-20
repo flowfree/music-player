@@ -1,5 +1,8 @@
 'use client'
 
+import { useShallow } from 'zustand/react/shallow'
+import { useAudioPlayer } from '@/lib/store'
+import { SoundWaveAnimation } from '.'
 import { type TrackWithRelatedData } from '../actions'
 import { PlayCircleIcon } from '@heroicons/react/24/solid'
 
@@ -10,18 +13,32 @@ export function TrackCard({
   track: TrackWithRelatedData,
   onPlay: (trackId: number) => void
 }) {
+  const { trackId, isPlaying } = useAudioPlayer(
+    useShallow(state => ({ 
+      trackId: state.trackId, 
+      isPlaying: state.isPlaying 
+    }))
+  )
+
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
         <img src={track.imageUrl || ''} className="rounded-md" alt="" />
         <div className="group absolute top-0 left-0 z-10 w-full h-full flex items-center justify-center hover:bg-gray-50/20">
-          <button 
-            className="hidden py-1 px-2 group-hover:flex gap-1 text-sm rounded-full shadow bg-indigo-700 hover:bg-indigo-600 text-white font-bold"
-            onClick={() => onPlay(track.id)}
-          >
-            <PlayCircleIcon className="w-4 h-4" />
-            Play
-          </button>
+          {trackId === track.id && isPlaying && (
+            <div className="p-1 absolute bottom-2 left-2 rounded-full bg-white shadow">
+              <SoundWaveAnimation />
+            </div>
+          )}
+          {trackId !== track.id && (
+            <button 
+              className="hidden py-1 px-2 group-hover:flex gap-1 text-sm rounded-full shadow bg-indigo-700 hover:bg-indigo-600 text-white font-bold"
+              onClick={() => onPlay(track.id)}
+            >
+              <PlayCircleIcon className="w-4 h-4" />
+              Play
+            </button>
+          )}
         </div>
       </div>
       <div>

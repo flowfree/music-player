@@ -14,14 +14,21 @@ import {
 
 export function AudioPlayer() {
   const [track, setTrack] = useState<TrackWithRelatedData>()
-  const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState('0:00')
   const [volume, setVolume] = useState(0.9)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const { trackId } = useAudioPlayer(
-    useShallow(state => ({ trackId: state.trackId }))
+  const { 
+    trackId,
+    isPlaying,
+    setIsPlaying 
+  } = useAudioPlayer(
+    useShallow(state => ({ 
+      trackId: state.trackId,
+      isPlaying: state.isPlaying,
+      setIsPlaying: state.setIsPlaying
+    }))
   )
 
   useEffect(() => {
