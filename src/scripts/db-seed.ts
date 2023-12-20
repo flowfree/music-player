@@ -127,7 +127,14 @@ async function dbSeed() {
     const { id, title, duration, url, imageUrl } = track
 
     const createdTrack = await prisma.track.create({
-      data: { id, title, duration, url, imageUrl }
+      data: { 
+        id, 
+        title, 
+        duration, 
+        url, 
+        imageUrl,
+        releaseDate: new Date('2023-12-01')
+      }
     })
 
     for (const artistId of track.artists) {

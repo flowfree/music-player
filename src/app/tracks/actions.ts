@@ -47,6 +47,10 @@ export async function fetchAllTracks(
           }
         }
       },
+      orderBy: [
+        { releaseDate: 'desc' },
+        { id: 'asc' }
+      ],
       skip: pagination?.skip,
       take: pagination?.take
     })

@@ -17,12 +17,8 @@ interface Track {
 }
 
 async function fetchNCSTracks() {
-  // const response = await axios.get('https://ncs.io/music')
-  // const $ = cheerio.load(response.data)
-
-  const filePath = './sample-data/ncs.html'
-  const content = fs.readFileSync(filePath, 'utf-8')
-  const $ = cheerio.load(content)
+  const response = await axios.get('https://ncs.io/music')
+  const $ = cheerio.load(response.data)
 
   const tracks: Track[] = []
 
