@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { getTrack, type TrackWithRelatedData } from '../tracks/actions'
 import { useAudioPlayer } from '@/lib/store'
+import { TrackImage } from '../tracks/components'
 import {
   PlayIcon,
   PauseIcon,
@@ -94,7 +95,7 @@ export function AudioPlayer() {
       <div className="p-4 flex flex-row gap-8 items-center bg-gray-100/90">
 
         <div className="basis-1/4 flex flex-row gap-2 overfow-hidden">
-          <img src={track.imageUrl || '/img/default.png'} className="w-16 h-16" alt="" />
+          <TrackImage src={track.imageUrl || '/img/default.png'} className="w-16 h-16" />
           <div className="self-center">
             <h3 className="text-sm font-bold line-clamp-1">
               {track.title}
