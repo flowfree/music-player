@@ -10,7 +10,7 @@ export default function Page() {
   const [tracks, setTracks] = useState<TrackWithRelatedData[]>([])
   const [skip, setSkip] = useState(0)
   const [hasMore, setHasMore] = useState(false)
-  const take = 5
+  const take = 10
 
   const { play } = useAudioPlayer(
     useShallow(state => ({ trackId: state.trackId, play: state.play }))

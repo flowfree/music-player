@@ -6,8 +6,8 @@ import '../../public/css/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Music Streaming',
-  description: 'MP3 music streaming',
+  title: 'NCS Downloader & Player',
+  description: 'Download and play NCS musics from your browser.',
 }
 
 export default function RootLayout({
