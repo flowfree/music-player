@@ -92,11 +92,11 @@ export function AudioPlayer() {
 
   return (
     <>
-      <div className="p-4 flex flex-row gap-8 items-center bg-gray-100/90">
+      <div className="p-4 flex flex-row gap-8 items-center bg-black/80">
 
         <div className="basis-1/4 flex flex-row gap-2 overfow-hidden">
           <TrackImage src={track.imageUrl || '/img/default.png'} className="w-16 h-16" />
-          <div className="self-center">
+          <div className="self-center text-white">
             <h3 className="text-sm font-bold line-clamp-1">
               {track.title}
             </h3>
@@ -108,16 +108,16 @@ export function AudioPlayer() {
 
         <div className="basis-1/2 flex flex-col gap-2 items-center">
           <div className="flex flex-row gap-4">
-            <button className="hover:text-gray-600">
+            <button className="text-white hover:text-gray-600">
               <BackwardIcon className="w-5 h-5" />
             </button>
             <button 
-              className="p-2 rounded-full bg-indigo-700 text-white"
+              className="p-2 rounded-full bg-white text-indigo-800"
               onClick={togglePlayPause}
             >
               {isPlaying ? <PauseIcon className="w-6 h-6" /> : <PlayIcon className="w-6 h-6" />}
             </button>
-            <button className="hover:text-gray-600">
+            <button className="text-white hover:text-gray-600">
               <ForwardIcon className="w-5 h-5" />
             </button>
           </div>
@@ -126,8 +126,8 @@ export function AudioPlayer() {
             <span className="text-xs">
               {currentTime}
             </span>
-            <div className="w-full bg-gray-200 rounded-full h-1">
-              <div className="bg-stone-700 h-1 rounded-full" style={{width: `${progress}%`}} />
+            <div className="w-full bg-stone-500 rounded-full h-1">
+              <div className="bg-gray-200 h-1 rounded-full" style={{width: `${progress}%`}} />
             </div>
             <span className="text-xs">
               {track.duration ? formatTime(track.duration) : '0:00'}
@@ -137,13 +137,13 @@ export function AudioPlayer() {
 
         <div className="basis-1/4 flex flex-row-reverse">
           <div className="group w-[150px] flex flex-row gap-2 items-center">
-            <SpeakerWaveIcon className="w-5 h-5 group-hover:text-purple-700" />
+            <SpeakerWaveIcon className="w-5 h-5 text-white" />
             <input 
               type="range" 
               min="0" 
               max="1" 
               step="0.01" 
-              className="w-full h-1 bg-gray-200 rounded-lg cursor-pointer accent-stone-700 group-hover:accent-purple-700" 
+              className="w-full h-1 bg-stone-500 rounded-lg cursor-pointer accent-gray-200" 
               value={volume}
               onChange={e => setVolume(parseFloat(e.target.value))}
             />
