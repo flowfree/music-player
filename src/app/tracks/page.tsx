@@ -29,7 +29,7 @@ export default function Page() {
 
   return (
     <div className="p-4 max-w-7xl mx-auto min-h-screen">
-      <ul className="grid grid-cols-5 gap-x-6 gap-y-6">
+      <ul className="grid grid-cols-5 gap-x-8 gap-y-8">
         {tracks.map(track => (
           <li key={track.id}>
             <TrackCard 

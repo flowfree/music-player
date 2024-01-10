@@ -123,13 +123,13 @@ export function AudioPlayer() {
           </div>
 
           <div className="w-full flex flex-row gap-2 items-center">
-            <span className="text-xs">
+            <span className="text-white text-xs">
               {currentTime}
             </span>
             <div className="w-full bg-stone-500 rounded-full h-1">
               <div className="bg-gray-200 h-1 rounded-full" style={{width: `${progress}%`}} />
             </div>
-            <span className="text-xs">
+            <span className="text-white text-xs">
               {track.duration ? formatTime(track.duration) : '0:00'}
             </span>
           </div>
