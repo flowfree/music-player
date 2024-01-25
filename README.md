@@ -24,7 +24,7 @@ After cloning this repo, follow these steps:
 
         npm run dev
 
-    Visit http://localhost:8000 using your browser to open the app.
+    Visit http://localhost:3000 using your browser to open the app.
 
 
 ## License 
